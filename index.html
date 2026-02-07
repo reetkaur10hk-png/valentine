@@ -32,10 +32,16 @@ background-position:0 0, 30px 30px;
 opacity:.35;
 }
 
-.container{text-align:center;z-index:2;position:relative;}
+.container{text-align:center;position:relative;z-index:2;}
 
-img{width:220px;animation:float 2.5s ease-in-out infinite;}
-@keyframes float{50%{transform:translateY(-14px)}}
+img{
+width:220px;
+animation:float 2.5s ease-in-out infinite;
+}
+
+@keyframes float{
+50%{transform:translateY(-14px)}
+}
 
 h1{
 font-family:'Playfair Display', serif;
@@ -45,7 +51,12 @@ margin:18px;
 text-shadow:0 0 15px #ff9aa2;
 }
 
-.buttons{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;}
+.buttons{
+display:flex;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
+}
 
 button{
 padding:15px 34px;
@@ -61,31 +72,24 @@ box-shadow:0 6px 14px rgba(0,0,0,.12);
 
 audio{margin-top:15px;}
 
-.heart,.pastel,.spark{
+.heart{
 position:fixed;
 font-size:22px;
 animation:rise 2s forwards;
 }
 
 @keyframes rise{
-to{transform:translateY(-220px);opacity:0}
+to{transform:translateY(-200px);opacity:0}
 }
 
-.fire{
+.sparkle{
 position:fixed;
-font-size:28px;
-animation:boom 1.3s forwards;
+font-size:16px;
+animation:spark 1.5s forwards;
 }
 
-@keyframes boom{
-to{transform:scale(2);opacity:0}
-}
-
-#letter{
-font-size:22px;
-color:#c9183a;
-margin-top:15px;
-font-family:'Playfair Display', serif;
+@keyframes spark{
+to{transform:translateY(-80px);opacity:0}
 }
 </style>
 </head>
@@ -94,6 +98,7 @@ font-family:'Playfair Display', serif;
 
 <div class="container">
 
+<!-- begging mouse -->
 <img id="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
 
 <h1 id="text">
@@ -110,8 +115,6 @@ Will you be my Valentine?
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c66bfb0b0.mp3">
 </audio>
 
-<div id="letter"></div>
-
 </div>
 
 <script>
@@ -119,7 +122,6 @@ const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const gif=document.getElementById("gif");
 const text=document.getElementById("text");
-const letter=document.getElementById("letter");
 
 function run(){
 noBtn.style.position="fixed";
@@ -129,47 +131,33 @@ noBtn.style.top=Math.random()*80+"vh";
 noBtn.onmouseover=run;
 noBtn.ontouchstart=run;
 
-function floatEmoji(e){
-let d=document.createElement("div");
-d.className="heart";
-d.innerHTML=e;
-d.style.left=Math.random()*100+"vw";
-d.style.top="80vh";
-document.body.appendChild(d);
-setTimeout(()=>d.remove(),2000);
+function heart(){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.top="80vh";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),2000);
 }
 
-function firework(){
-let f=document.createElement("div");
-f.className="fire";
-f.innerHTML="🎆";
-f.style.left=Math.random()*100+"vw";
-f.style.top=Math.random()*60+"vh";
-document.body.appendChild(f);
-setTimeout(()=>f.remove(),1300);
+function sparkle(){
+let s=document.createElement("div");
+s.className="sparkle";
+s.innerHTML="✨";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*60+"vh";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),1500);
 }
-
-function typeText(msg){
-let i=0;
-letter.innerHTML="";
-const timer=setInterval(()=>{
-letter.innerHTML+=msg[i];
-i++;
-if(i>=msg.length) clearInterval(timer);
-},70);
-}
-
-setInterval(()=>floatEmoji("💗"),900);
 
 yesBtn.onclick=()=>{
-gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"; // dancing cat
 text.innerHTML="Forever & Always 💕<br>my Chann Makhn";
 
-typeText("You are my today, tomorrow and forever ❤️");
-
 for(let i=0;i<35;i++){
-floatEmoji("💖");
-firework();
+heart();
+sparkle();
 }
 };
 </script>
