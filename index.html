@@ -70,7 +70,7 @@ box-shadow:0 6px 14px rgba(0,0,0,.12);
 #yes{background:#c9183a;color:white;}
 #no{background:#e0e0e0;position:relative;}
 
-audio{margin-top:15px;}
+audio{margin-top:15px;width:260px;}
 
 .heart{
 position:fixed;
@@ -91,6 +91,36 @@ animation:spark 1.5s forwards;
 @keyframes spark{
 to{transform:translateY(-80px);opacity:0}
 }
+
+.gradient-heart{
+position:fixed;
+font-size:24px;
+background:linear-gradient(45deg,#ff9aa2,#ffb7b2,#ffd1dc,#cdb4db);
+-webkit-background-clip:text;
+color:transparent;
+animation:floatUp 6s linear forwards;
+pointer-events:none;
+}
+
+@keyframes floatUp{
+to{transform:translateY(-120vh);opacity:0}
+}
+
+.petal{
+position:fixed;
+top:-10px;
+font-size:22px;
+animation:fallPetal 7s linear forwards;
+pointer-events:none;
+opacity:.8;
+}
+
+@keyframes fallPetal{
+to{
+transform:translateY(120vh) rotate(360deg);
+opacity:0;
+}
+}
 </style>
 </head>
 
@@ -98,8 +128,7 @@ to{transform:translateY(-80px);opacity:0}
 
 <div class="container">
 
-<!-- begging mouse -->
-<img id="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
+<img id="gif" src="https://i.pinimg.com/originals/7e/6a/4c/7e6a4c3f9a16f58b8b7c17bfb98c2d0a.gif">
 
 <h1 id="text">
 Mohdeep Singh Bains 💖<br>
@@ -111,8 +140,8 @@ Will you be my Valentine?
 <button id="no">No 👿</button>
 </div>
 
-<audio controls>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c66bfb0b0.mp3">
+<audio id="song" controls>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
 </audio>
 
 </div>
@@ -122,6 +151,7 @@ const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const gif=document.getElementById("gif");
 const text=document.getElementById("text");
+const song=document.getElementById("song");
 
 function run(){
 noBtn.style.position="fixed";
@@ -132,7 +162,7 @@ noBtn.onmouseover=run;
 noBtn.ontouchstart=run;
 
 function heart(){
-let h=document.createElement("div");
+const h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
 h.style.left=Math.random()*100+"vw";
@@ -142,7 +172,7 @@ setTimeout(()=>h.remove(),2000);
 }
 
 function sparkle(){
-let s=document.createElement("div");
+const s=document.createElement("div");
 s.className="sparkle";
 s.innerHTML="✨";
 s.style.left=Math.random()*100+"vw";
@@ -151,8 +181,28 @@ document.body.appendChild(s);
 setTimeout(()=>s.remove(),1500);
 }
 
+setInterval(()=>{
+const gh=document.createElement("div");
+gh.className="gradient-heart";
+gh.innerHTML="❤";
+gh.style.left=Math.random()*100+"vw";
+gh.style.top="100vh";
+document.body.appendChild(gh);
+setTimeout(()=>gh.remove(),6000);
+},800);
+
+setInterval(()=>{
+const p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌸";
+p.style.left=Math.random()*100+"vw";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),7000);
+},900);
+
 yesBtn.onclick=()=>{
-gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"; // dancing cat
+song.play();
+gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
 text.innerHTML="Forever & Always 💕<br>my Chann Makhn";
 
 for(let i=0;i<35;i++){
