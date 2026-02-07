@@ -24,18 +24,18 @@ body::before{
 content:"";
 position:absolute;
 inset:0;
-background-image:
+background:
 radial-gradient(#ff9aa2 2px, transparent 2px),
 radial-gradient(#ff6f7d 2px, transparent 2px);
 background-size:60px 60px;
 background-position:0 0, 30px 30px;
-opacity:0.35;
+opacity:.35;
 }
 
 .container{
 text-align:center;
 position:relative;
-z-index:1;
+z-index:2;
 }
 
 img{
@@ -44,16 +44,20 @@ animation:float 2.5s ease-in-out infinite;
 }
 
 @keyframes float{
-0%,100%{transform:translateY(0)}
 50%{transform:translateY(-14px)}
 }
 
 h1{
 font-family:'Playfair Display', serif;
 color:#c9183a;
-margin:18px;
 font-size:28px;
-text-shadow:0 0 10px #ff9aa2;
+margin:18px;
+animation:glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow{
+from{ text-shadow:0 0 6px #ff9aa2;}
+to{ text-shadow:0 0 18px #c9183a;}
 }
 
 .buttons{
@@ -69,19 +73,11 @@ font-size:18px;
 border-radius:50px;
 border:none;
 cursor:pointer;
-font-family:'Poppins', sans-serif;
-box-shadow:0 6px 14px rgba(0,0,0,0.12);
+box-shadow:0 6px 14px rgba(0,0,0,.12);
 }
 
-#yes{
-background:#c9183a;
-color:white;
-}
-
-#no{
-background:#e0e0e0;
-position:relative;
-}
+#yes{background:#c9183a;color:white;}
+#no{background:#e0e0e0;position:relative;}
 
 .heart{
 position:fixed;
@@ -91,6 +87,27 @@ animation:rise 2s forwards;
 
 @keyframes rise{
 to{transform:translateY(-200px);opacity:0}
+}
+
+.petal{
+position:fixed;
+top:-10px;
+font-size:22px;
+animation:fall 6s linear infinite;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg)}
+}
+
+.sparkle{
+position:fixed;
+font-size:16px;
+animation:spark 1.5s forwards;
+}
+
+@keyframes spark{
+to{transform:translateY(-80px);opacity:0}
 }
 
 audio{
@@ -103,7 +120,7 @@ margin-top:15px;
 
 <div class="container">
 
-<!-- begging mouse -->
+<!-- Cute begging mouse -->
 <img id="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
 
 <h1 id="text">
@@ -116,7 +133,7 @@ Will you be my Valentine?
 <button id="no">No 👿</button>
 </div>
 
-<!-- music -->
+<!-- Romantic music -->
 <audio controls>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4c66bfb0b0.mp3">
 </audio>
@@ -124,22 +141,32 @@ Will you be my Valentine?
 </div>
 
 <script>
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
-const gif = document.getElementById("gif");
-const text = document.getElementById("text");
+const noBtn=document.getElementById("no");
+const yesBtn=document.getElementById("yes");
+const gif=document.getElementById("gif");
+const text=document.getElementById("text");
 
 function run(){
 noBtn.style.position="fixed";
 noBtn.style.left=Math.random()*90+"vw";
 noBtn.style.top=Math.random()*80+"vh";
 }
+noBtn.onmouseover=run;
+noBtn.ontouchstart=run;
 
-noBtn.onmouseover = run;
-noBtn.ontouchstart = run;
+// Rose petals falling
+setInterval(()=>{
+let p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌹";
+p.style.left=Math.random()*100+"vw";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),6000);
+},700);
 
+// Hearts
 function heart(){
-const h=document.createElement("div");
+let h=document.createElement("div");
 h.className="heart";
 h.innerHTML="💖";
 h.style.left=Math.random()*100+"vw";
@@ -148,11 +175,26 @@ document.body.appendChild(h);
 setTimeout(()=>h.remove(),2000);
 }
 
-yesBtn.onclick = ()=>{
-gif.src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif";
+// Sparkles
+function sparkle(){
+let s=document.createElement("div");
+s.className="sparkle";
+s.innerHTML="✨";
+s.style.left=Math.random()*100+"vw";
+s.style.top=Math.random()*60+"vh";
+document.body.appendChild(s);
+setTimeout(()=>s.remove(),1500);
+}
+
+// YES click action
+yesBtn.onclick=()=>{
+gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
 text.innerHTML="Forever & Always 💕<br>my Chann Makhn";
 
-for(let i=0;i<40;i++) heart();
+for(let i=0;i<35;i++){
+heart();
+sparkle();
+}
 };
 </script>
 
