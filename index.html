@@ -1,74 +1,69 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Mohdeep 💖</title>
 
 <style>
-body {
-  margin:0;
-  height:100vh;
-  background:linear-gradient(135deg,#ffd1e8,#fff0f6);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:Arial, sans-serif;
+body{
+margin:0;
+height:100vh;
+background:linear-gradient(135deg,#ffd1e8,#fff0f6);
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial, sans-serif;
+overflow:hidden;
 }
 
-.container{
-  text-align:center;
-}
+.container{text-align:center;}
 
 img{
-  width:220px;
-  animation:float 2s infinite ease-in-out;
+width:220px;
+animation:float 2s ease-in-out infinite;
 }
 
 @keyframes float{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-12px)}
 }
 
-h1{
-  color:#ff2f7a;
-  margin:15px;
-}
+h1{color:#ff2f7a;margin:15px}
 
 .buttons{
-  display:flex;
-  gap:20px;
-  justify-content:center;
+display:flex;
+gap:20px;
+justify-content:center;
+flex-wrap:wrap;
 }
 
 button{
-  padding:15px 30px;
-  font-size:18px;
-  border-radius:40px;
-  border:none;
-  cursor:pointer;
+padding:15px 32px;
+font-size:18px;
+border:none;
+border-radius:40px;
+cursor:pointer;
 }
 
-#yes{
-  background:#ff2f7a;
-  color:white;
-}
+#yes{background:#ff2f7a;color:white;}
+#no{background:#ccc;position:relative;}
 
-#no{
-  background:#ccc;
-  position:relative;
+#musicBtn{
+margin-top:15px;
+background:#ff8ab8;
+color:white;
 }
 
 .heart{
-  position:fixed;
-  font-size:22px;
-  animation:rise 2s forwards;
+position:fixed;
+font-size:22px;
+animation:rise 2s forwards;
 }
 
 @keyframes rise{
-  from{opacity:1; transform:translateY(0)}
-  to{opacity:0; transform:translateY(-180px)}
+from{opacity:1;transform:translateY(0)}
+to{opacity:0;transform:translateY(-180px)}
 }
 </style>
 </head>
@@ -76,51 +71,59 @@ button{
 <body>
 
 <div class="container">
-  <img id="gif" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
 
-  <h1 id="text">Mohdeep Singh Bains 💖<br>Will you be my Valentine?</h1>
+<img id="gif" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif">
 
-  <div class="buttons">
-    <button id="yes">Yes ❤️</button>
-    <button id="no">No 😒</button>
-  </div>
+<h1 id="text">Mohdeep Singh Bains 💖<br>Will you be my Valentine?</h1>
+
+<div class="buttons">
+<button id="yes">Yes ❤️</button>
+<button id="no">No 😒</button>
 </div>
 
-<!-- Music -->
-<iframe width="0" height="0" src="https://www.youtube.com/embed/4YJk4uXJjhc?autoplay=1&loop=1" allow="autoplay"></iframe>
+<button id="musicBtn">Play our song 🎵💖</button>
+
+<audio id="song">
+<source src="https://dl.sndup.net/yf6b/thumak-thumak.mp3" type="audio/mpeg">
+</audio>
+
+</div>
 
 <script>
 const noBtn=document.getElementById("no");
 const yesBtn=document.getElementById("yes");
 const gif=document.getElementById("gif");
 const text=document.getElementById("text");
+const song=document.getElementById("song");
+const musicBtn=document.getElementById("musicBtn");
 
-function runAway(){
-  const x=Math.random()*(window.innerWidth-noBtn.offsetWidth);
-  const y=Math.random()*(window.innerHeight-noBtn.offsetHeight);
-  noBtn.style.position="fixed";
-  noBtn.style.left=x+"px";
-  noBtn.style.top=y+"px";
+musicBtn.onclick=()=> song.play();
+
+function run(){
+const x=Math.random()*(window.innerWidth-noBtn.offsetWidth);
+const y=Math.random()*(window.innerHeight-noBtn.offsetHeight);
+noBtn.style.position="fixed";
+noBtn.style.left=x+"px";
+noBtn.style.top=y+"px";
 }
 
-noBtn.addEventListener("mouseover",runAway);
-noBtn.addEventListener("touchstart",runAway);
+noBtn.addEventListener("mouseover",run);
+noBtn.addEventListener("touchstart",run);
 
 yesBtn.addEventListener("click",()=>{
-  gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
-  text.innerHTML="YAYYYY MOHDEEP!!! 💕💍 I KNEW IT!!!";
-
-  for(let i=0;i<40;i++) hearts();
+gif.src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif";
+text.innerHTML="YAYYYY MOHDEEP!!! 💕 I KNEW IT!";
+for(let i=0;i<35;i++)heart();
 });
 
-function hearts(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="💖";
-  h.style.left=Math.random()*100+"vw";
-  h.style.top="80vh";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),2000);
+function heart(){
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.top="80vh";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),2000);
 }
 </script>
 
