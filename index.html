@@ -1,142 +1,165 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine Surprise 💖</title>
+<title>For Mohdeep 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-
 body{
 margin:0;
-background:#fff6e9;
-font-family:'Playfair Display', serif;
+background:#fff6ea;
+font-family:'Poppins',sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
 height:100vh;
-flex-direction:column;
-text-align:center;
 overflow:hidden;
 }
 
-h2{color:#c9183a;}
+.petal{
+position:fixed;
+top:-20px;
+font-size:22px;
+animation:fall linear infinite;
+opacity:.85;
+}
 
-#game{
+@keyframes fall{
+to{transform:translateY(110vh)}
+}
+
+.container{text-align:center;z-index:2;}
+
+h1{
+font-family:'Playfair Display',serif;
+color:#c9183a;
+margin:14px;
+}
+
+#puzzle{
 display:grid;
 grid-template-columns:repeat(3,110px);
-gap:5px;
-margin-top:20px;
+gap:6px;
+justify-content:center;
 }
 
 .tile{
 width:110px;
 height:110px;
+background-image:url('ghibli.jpg');
 background-size:330px 330px;
-border-radius:12px;
+border-radius:14px;
+cursor:pointer;
+box-shadow:0 4px 10px rgba(0,0,0,.2);
+}
+
+.selected{
+outline:4px solid #c9183a;
+}
+
+button{
+margin-top:20px;
+padding:14px 36px;
+border-radius:40px;
+border:none;
+background:#c9183a;
+color:white;
+font-size:18px;
+display:none;
 cursor:pointer;
 }
 
-#message{
+#final{
 display:none;
-font-size:28px;
-color:#c9183a;
-margin-top:30px;
-min-height:90px;
 }
 
-.petal{
-position:fixed;
-top:-10px;
-font-size:22px;
-animation:fall 7s linear forwards;
-opacity:.85;
-}
-
-@keyframes fall{
-to{
-transform:translateY(120vh) rotate(360deg);
-opacity:0;
-}
+#final img{
+width:220px;
+margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>Solve the puzzle to unlock your surprise 🧩💖</h2>
+<div class="container">
 
-<div id="game"></div>
+<h1 id="title">Solve the puzzle 💕</h1>
 
-<div id="message"></div>
+<div id="puzzle"></div>
+
+<button id="continue">Continue ❤️</button>
+
+<div id="final">
+<h1>Congratulations 💖</h1>
+<p>You unlocked a date with me 💕<br>Happy Valentine’s Day</p>
+<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+</div>
+
+</div>
 
 <script>
-const image = "ghibli.jpg.PNG";
-const game=document.getElementById("game");
-const message=document.getElementById("message");
-let tiles=[];
+const puzzle=document.getElementById("puzzle");
+const btn=document.getElementById("continue");
+const final=document.getElementById("final");
 
-for(let i=0;i<9;i++){
-const t=document.createElement("div");
+let order=[0,1,2,3,4,5,6,7,8];
+let selected=null;
+
+order.sort(()=>Math.random()-0.5);
+
+function draw(){
+puzzle.innerHTML="";
+order.forEach((pos,i)=>{
+let t=document.createElement("div");
 t.className="tile";
-t.style.backgroundImage=`url(${image})`;
 t.style.backgroundPosition=
-`${-(i%3)*110}px ${-Math.floor(i/3)*110}px`;
-t.dataset.correct=i;
-tiles.push(t);
-}
-
-shuffle();
-render();
-
-function shuffle(){
-tiles.sort(()=>Math.random()-0.5);
-}
-
-function render(){
-game.innerHTML="";
-tiles.forEach(t=>{
-t.onclick=()=>{shuffle();render();checkWin();}
-game.appendChild(t);
+`-${(pos%3)*110}px -${Math.floor(pos/3)*110}px`;
+t.onclick=()=>select(i,t);
+puzzle.appendChild(t);
 });
 }
 
-function checkWin(){
-let win=true;
-tiles.forEach((t,i)=>{
-if(t.dataset.correct!=i) win=false;
-});
-if(win) unlock();
+function select(i,el){
+if(selected===null){
+selected={i,el};
+el.classList.add("selected");
+}else{
+[selected.i, i];
+[order[selected.i], order[i]]=[order[i], order[selected.i]];
+draw();
+selected=null;
+check();
+}
 }
 
-function unlock(){
-game.style.display="none";
-message.style.display="block";
-typeText("Congratulations! You unlocked a date with me 💕\nHappy Valentine’s Day ❤️");
-startPetals();
+function check(){
+if(order.every((v,i)=>v===i)){
+btn.style.display="block";
+}
 }
 
-function typeText(text){
-let i=0;
-message.innerHTML="";
-const timer=setInterval(()=>{
-message.innerHTML+=text[i]==="\n"?"<br>":text[i];
-i++;
-if(i>=text.length) clearInterval(timer);
-},60);
-}
+draw();
 
-function startPetals(){
-setInterval(()=>{
-const p=document.createElement("div");
+btn.onclick=()=>{
+puzzle.style.display="none";
+btn.style.display="none";
+final.style.display="block";
+};
+
+function petals(){
+let p=document.createElement("div");
 p.className="petal";
 p.innerHTML="🌸";
 p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=3+Math.random()*3+"s";
 document.body.appendChild(p);
-setTimeout(()=>p.remove(),7000);
-},700);
+setTimeout(()=>p.remove(),6000);
 }
+setInterval(petals,300);
 </script>
 
 </body>
