@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Mohdeep 💖</title>
+<title>Valentine Puzzle 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -19,24 +19,12 @@ height:100vh;
 overflow:hidden;
 }
 
-.petal{
-position:fixed;
-top:-20px;
-font-size:22px;
-animation:fall linear infinite;
-opacity:.85;
-}
-
-@keyframes fall{
-to{transform:translateY(110vh)}
-}
-
-.container{text-align:center;z-index:2;}
+.container{text-align:center;}
 
 h1{
 font-family:'Playfair Display',serif;
 color:#c9183a;
-margin:14px;
+margin-bottom:15px;
 }
 
 #puzzle{
@@ -49,7 +37,6 @@ justify-content:center;
 .tile{
 width:110px;
 height:110px;
-background-image:url('ghibli.jpg.PNG');
 background-size:330px 330px;
 border-radius:14px;
 cursor:pointer;
@@ -60,11 +47,11 @@ box-shadow:0 4px 10px rgba(0,0,0,.2);
 outline:4px solid #c9183a;
 }
 
-button{
+#continue{
 margin-top:20px;
-padding:14px 36px;
-border-radius:40px;
+padding:12px 30px;
 border:none;
+border-radius:30px;
 background:#c9183a;
 color:white;
 font-size:18px;
@@ -74,11 +61,19 @@ cursor:pointer;
 
 #final{
 display:none;
+margin-top:20px;
 }
 
-#final img{
-width:220px;
-margin-top:15px;
+.petal{
+position:fixed;
+top:-20px;
+font-size:20px;
+animation:fall linear infinite;
+opacity:.8;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh)}
 }
 </style>
 </head>
@@ -87,7 +82,7 @@ margin-top:15px;
 
 <div class="container">
 
-<h1 id="title">Solve the puzzle 💕</h1>
+<h1>Solve the puzzle 💕</h1>
 
 <div id="puzzle"></div>
 
@@ -95,13 +90,15 @@ margin-top:15px;
 
 <div id="final">
 <h1>Congratulations 💖</h1>
-<p>You unlocked a date with me 💕<br>Happy Valentine’s Day</p>
-<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+<p>You unlocked a date with me 💕<br>Happy Valentine’s Day ❤️</p>
+<img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif" width="220">
 </div>
 
 </div>
 
 <script>
+const imageURL="ghibli.jpg.PNG"; // EXACT file name
+
 const puzzle=document.getElementById("puzzle");
 const btn=document.getElementById("continue");
 const final=document.getElementById("final");
@@ -116,6 +113,7 @@ puzzle.innerHTML="";
 order.forEach((pos,i)=>{
 let t=document.createElement("div");
 t.className="tile";
+t.style.backgroundImage=`url(${imageURL})`;
 t.style.backgroundPosition=
 `-${(pos%3)*110}px -${Math.floor(pos/3)*110}px`;
 t.onclick=()=>select(i,t);
@@ -128,15 +126,14 @@ if(selected===null){
 selected={i,el};
 el.classList.add("selected");
 }else{
-[selected.i, i];
 [order[selected.i], order[i]]=[order[i], order[selected.i]];
-draw();
 selected=null;
-check();
+draw();
+checkWin();
 }
 }
 
-function check(){
+function checkWin(){
 if(order.every((v,i)=>v===i)){
 btn.style.display="block";
 }
