@@ -2,139 +2,141 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>For Mohdeep 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine Surprise 💖</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
 body{
 margin:0;
-height:100vh;
 background:#fff6e9;
+font-family:'Playfair Display', serif;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:Arial, sans-serif;
-overflow:hidden;
+height:100vh;
+flex-direction:column;
 text-align:center;
+overflow:hidden;
 }
 
-.container{position:relative}
+h2{color:#c9183a;}
 
-h1{
-color:#c9183a;
-margin:15px;
-font-size:28px;
+#game{
+display:grid;
+grid-template-columns:repeat(3,110px);
+gap:5px;
+margin-top:20px;
 }
 
-img{
-width:220px;
-animation:float 2s infinite ease-in-out;
-}
-
-@keyframes float{
-50%{transform:translateY(-12px)}
-}
-
-button{
-padding:15px 32px;
-border:none;
-border-radius:40px;
-font-size:18px;
+.tile{
+width:110px;
+height:110px;
+background-size:330px 330px;
+border-radius:12px;
 cursor:pointer;
-margin:10px;
 }
 
-#yes{background:#c9183a;color:white}
-#no{background:#ddd;position:relative}
-
-audio{margin-top:10px;width:240px}
-
-.heart{
-position:fixed;
-font-size:22px;
-animation:rise 2s forwards;
-}
-
-@keyframes rise{
-to{transform:translateY(-200px);opacity:0}
+#message{
+display:none;
+font-size:28px;
+color:#c9183a;
+margin-top:30px;
+min-height:90px;
 }
 
 .petal{
 position:fixed;
+top:-10px;
 font-size:22px;
 animation:fall 7s linear forwards;
-opacity:.8;
+opacity:.85;
 }
 
 @keyframes fall{
-to{transform:translateY(120vh) rotate(360deg);opacity:0}
+to{
+transform:translateY(120vh) rotate(360deg);
+opacity:0;
+}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<h2>Solve the puzzle to unlock your surprise 🧩💖</h2>
 
-<!-- REAL CUTE MOUSE -->
-<img id="gif" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+<div id="game"></div>
 
-<h1 id="text">
-Mohdeep Singh Bains 💖<br>
-Will you be my Valentine?
-</h1>
-
-<button id="yes">Yes 🐭🐱</button>
-<button id="no">No 🥴</button>
-
-<br>
-
-<audio id="song" controls>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
-</audio>
-
-</div>
+<div id="message"></div>
 
 <script>
-const noBtn=document.getElementById("no");
-const yesBtn=document.getElementById("yes");
-const gif=document.getElementById("gif");
-const text=document.getElementById("text");
-const song=document.getElementById("song");
+const image = "ghibli.jpg.PNG";
+const game=document.getElementById("game");
+const message=document.getElementById("message");
+let tiles=[];
 
-function run(){
-noBtn.style.position="fixed";
-noBtn.style.left=Math.random()*90+"vw";
-noBtn.style.top=Math.random()*80+"vh";
-}
-noBtn.onmouseover=run;
-noBtn.ontouchstart=run;
-
-function heart(){
-let h=document.createElement("div");
-h.className="heart";
-h.innerHTML="💖";
-h.style.left=Math.random()*100+"vw";
-h.style.top="80vh";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),2000);
+for(let i=0;i<9;i++){
+const t=document.createElement("div");
+t.className="tile";
+t.style.backgroundImage=`url(${image})`;
+t.style.backgroundPosition=
+`${-(i%3)*110}px ${-Math.floor(i/3)*110}px`;
+t.dataset.correct=i;
+tiles.push(t);
 }
 
+shuffle();
+render();
+
+function shuffle(){
+tiles.sort(()=>Math.random()-0.5);
+}
+
+function render(){
+game.innerHTML="";
+tiles.forEach(t=>{
+t.onclick=()=>{shuffle();render();checkWin();}
+game.appendChild(t);
+});
+}
+
+function checkWin(){
+let win=true;
+tiles.forEach((t,i)=>{
+if(t.dataset.correct!=i) win=false;
+});
+if(win) unlock();
+}
+
+function unlock(){
+game.style.display="none";
+message.style.display="block";
+typeText("Congratulations! You unlocked a date with me 💕\nHappy Valentine’s Day ❤️");
+startPetals();
+}
+
+function typeText(text){
+let i=0;
+message.innerHTML="";
+const timer=setInterval(()=>{
+message.innerHTML+=text[i]==="\n"?"<br>":text[i];
+i++;
+if(i>=text.length) clearInterval(timer);
+},60);
+}
+
+function startPetals(){
 setInterval(()=>{
-let p=document.createElement("div");
+const p=document.createElement("div");
 p.className="petal";
 p.innerHTML="🌸";
 p.style.left=Math.random()*100+"vw";
 document.body.appendChild(p);
 setTimeout(()=>p.remove(),7000);
-},900);
-
-yesBtn.onclick=()=>{
-song.play();
-gif.src="https://media.giphy.com/media/l4FGI8GoTL7N4DsyI/giphy.gif";
-text.innerHTML="Forever & Always 💕<br>my Chann Makhn";
-for(let i=0;i<30;i++) heart();
-};
+},700);
+}
 </script>
 
 </body>
