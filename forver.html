@@ -5,67 +5,97 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Mohdeep ❤️</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Dancing+Script:wght@600&family=Poppins:wght@400&display=swap" rel="stylesheet">
+
 <style>
 body{
 margin:0;
 height:100vh;
 background:linear-gradient(135deg,#fff6ea,#ffe1ec);
+font-family:'Poppins',sans-serif;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:Georgia, serif;
-text-align:center;
 overflow:hidden;
 }
 
-.card{
+/* Envelope */
+.envelope{
+text-align:center;
+cursor:pointer;
+animation:pulse 1.8s infinite;
+}
+
+.envelope span{
+font-size:70px;
+}
+
+.envelope p{
+color:#c9183a;
+font-size:18px;
+}
+
+@keyframes pulse{
+50%{transform:scale(1.08)}
+}
+
+/* Letter */
+.letter{
+display:none;
 background:white;
-padding:38px 30px;
+padding:35px 28px;
 border-radius:22px;
 max-width:360px;
+height:75vh;
+overflow-y:auto;   /* ← THIS makes it scrollable */
 box-shadow:0 12px 35px rgba(0,0,0,.15);
-animation:fade 2s ease;
+animation:open 1.3s ease;
+}
+
+@keyframes open{
+from{opacity:0;transform:scale(.85)}
+to{opacity:1}
 }
 
 h1{
+font-family:'Playfair Display',serif;
 color:#c9183a;
 margin-bottom:15px;
+text-align:center;
 }
 
 #text{
-font-size:18px;
+font-size:17px;
+line-height:1.7;
 color:#444;
-line-height:1.6;
-min-height:220px;
+white-space:pre-line;
 }
 
-.heart{
-position:fixed;
-font-size:22px;
-animation:float 3s linear forwards;
-}
-
-@keyframes float{
-to{transform:translateY(-220px);opacity:0}
-}
-
-@keyframes fade{
-from{opacity:0;transform:scale(.9)}
-to{opacity:1}
+.signature{
+margin-top:25px;
+font-family:'Dancing Script',cursive;
+font-size:26px;
+color:#c9183a;
+text-align:right;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<div class="envelope" onclick="openLetter()">
+<span>💌</span>
+<p>Tap the heart to open my letter</p>
+</div>
+
+<div class="letter" id="letter">
 <h1>Mohdeep ❤️</h1>
 <div id="text"></div>
+<div class="signature" id="sign"></div>
 </div>
 
 <script>
-const message = 
-`I know you were upset,
+const message = `I know you were upset,
 and I understand your feelings.
 
 But please don’t ever say
@@ -81,7 +111,6 @@ There is no breakup in my heart.
 Only love.
 Only us.
 Always.
-
 “Every fight will end in hugs, not distance.”
 “Even when we’re angry, I’m still yours.”
 Its my obligation to understand your circumstances
@@ -91,30 +120,28 @@ I choose you: Today, Tomorrow and Forever ♾️
 Mera chann makhn 🫀🌙
 babugosha 🍐
 ladduuu😘
+You are my forever ❤️
+I love you endlessly♥️
+Happy Valentines Day mere heere 💎`;
 
-I love you endlessly ❤️`;
+let i = 0;
+const speed = 35;
 
-let i=0;
-const box=document.getElementById("text");
-
-function type(){
-if(i < message.length){
-box.innerHTML += message[i] === "\n" ? "<br>" : message[i];
+function typeWriter() {
+if (i < message.length) {
+document.getElementById("text").innerHTML += message.charAt(i);
 i++;
-setTimeout(type,45);
+setTimeout(typeWriter, speed);
+} else {
+document.getElementById("sign").innerHTML = "— Harreet 💕";
 }
 }
-type();
 
-setInterval(()=>{
-const h=document.createElement("div");
-h.className="heart";
-h.innerHTML="❤️";
-h.style.left=Math.random()*100+"vw";
-h.style.top="85vh";
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),3000);
-},900);
+function openLetter(){
+document.querySelector('.envelope').style.display="none";
+document.getElementById('letter').style.display="block";
+typeWriter();
+}
 </script>
 
 </body>
