@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Mohdeep ❤️</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+background:linear-gradient(135deg,#fff6ea,#ffe1ec);
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Georgia, serif;
+text-align:center;
+overflow:hidden;
+}
+
+.card{
+background:white;
+padding:38px 30px;
+border-radius:22px;
+max-width:360px;
+box-shadow:0 12px 35px rgba(0,0,0,.15);
+animation:fade 2s ease;
+}
+
+h1{
+color:#c9183a;
+margin-bottom:15px;
+}
+
+#text{
+font-size:18px;
+color:#444;
+line-height:1.6;
+min-height:220px;
+}
+
+.heart{
+position:fixed;
+font-size:22px;
+animation:float 3s linear forwards;
+}
+
+@keyframes float{
+to{transform:translateY(-220px);opacity:0}
+}
+
+@keyframes fade{
+from{opacity:0;transform:scale(.9)}
+to{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+<h1>Mohdeep ❤️</h1>
+<div id="text"></div>
+</div>
+
+<script>
+const message = 
+`I know you were upset,
+and I understand your feelings.
+
+But please don’t ever say
+we’ll go our separate ways —
+even in anger.
+
+I don’t want a life without you.
+I choose you in every mood,
+every fight,
+every silence.
+
+There is no breakup in my heart.
+Only love.
+Only us.
+Always.
+
+“Every fight will end in hugs, not distance.”
+“Even when we’re angry, I’m still yours.”
+Its my obligation to understand your circumstances
+before reaching at any judgement.
+I choose you: Today, Tomorrow and Forever ♾️
+
+Mera chann makhn 🫀🌙
+babugosha 🍐
+ladduuu😘
+
+I love you endlessly ❤️`;
+
+let i=0;
+const box=document.getElementById("text");
+
+function type(){
+if(i < message.length){
+box.innerHTML += message[i] === "\n" ? "<br>" : message[i];
+i++;
+setTimeout(type,45);
+}
+}
+type();
+
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+h.style.top="85vh";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),3000);
+},900);
+</script>
+
+</body>
+</html>
